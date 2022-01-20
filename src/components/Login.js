@@ -11,7 +11,7 @@ const Login = ({setToken}) => {
             window.localStorage.token = user.token
             setToken(user.token);
         })
-        .catch(() => {alert('Wrong username or password')})
+        .catch(({response}) => {alert(response.data.error)})
     }
 
     return (

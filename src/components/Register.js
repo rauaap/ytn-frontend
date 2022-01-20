@@ -10,8 +10,8 @@ const Register = () => {
         })
         .then(() => clearInputs(setters))
         .then(() => alert(`Registered with username ${username}`))
-        .catch(error => {
-            console.log(error)
+        .catch(({response}) => {
+            alert(response.data.error)
         })
     }
 
