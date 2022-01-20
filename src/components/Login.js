@@ -2,7 +2,7 @@ import loginServices from '../services/login'
 import UserAction from './UserAction'
 
 const Login = ({setToken}) => {
-    const login = (username, password) => {
+    const login = (username, password, setters) => {
         loginServices.login({
             'username': username,
             'password': password,
@@ -11,16 +11,15 @@ const Login = ({setToken}) => {
             window.localStorage.token = user.token
             setToken(user.token);
         })
+        .catch(() => {alert('Wrong username or password')})
     }
 
     return (
-        <>
-            <UserAction
-            onClick={login}
-            form={1}
-            navigation="register"
-            action="login"/>
-        </>
+        <UserAction
+        sendUserInput={login}
+        form={1}
+        navigation="register"
+        action="login"/>
     )
 }
 

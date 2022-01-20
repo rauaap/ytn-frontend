@@ -1,25 +1,26 @@
 import UserAction from './UserAction'
 import userServices from '../services/user'
+import {clearInputs} from '../helpers/helpers'
 
 const Register = () => {
-    const register = (username, password) => {
+    const register = (username, password, setters) => {
         userServices.register({
             'username': username,
             'password': password,
         })
+        .then(() => clearInputs(setters))
+        .then(() => alert(`Registered with username ${username}`))
         .catch(error => {
             console.log(error)
         })
     }
 
     return (
-        <>
-            <UserAction
-            onClick={register}
-            form={0}
-            navigation="login"
-            action="register"/>
-        </>
+        <UserAction
+        sendUserInput={register}
+        form={0}
+        navigation="login"
+        action="register"/>
     )
 }
 
