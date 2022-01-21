@@ -52,7 +52,7 @@ const App = () => {
         token === undefined ?
         <SetUserFormContext.Provider value={setUserForm}>
             {userForm ?
-            <Register /> :
+            <Register setUserForm={setUserForm}/> :
             <Login setToken={setToken}/>}
         </SetUserFormContext.Provider>
         :
