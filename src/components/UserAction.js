@@ -1,7 +1,21 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {useState, useContext} from 'react'
 import {SetUserFormContext} from '../App'
-import EnterKeyInput from './General'
+import {EnterKeyInput, Button} from './General'
+
+const UsernamePasswordInput = ({type, onChange, value, placeholder, onKeyPress}) => {
+    return (
+        <input
+        className="rounded mb-2 bg-stone-600 placeholder-stone-500 p-1.5"
+        type={type}
+        onChange={onChange}
+        value={value}
+        placeholder={placeholder}
+        onKeyPress={onKeyPress}
+        >
+        </input>
+    )
+}
 
 const UserAction = ({sendUserInput, action, navigation, form}) => {
     const [username, setUsername] = useState('')
@@ -11,23 +25,31 @@ const UserAction = ({sendUserInput, action, navigation, form}) => {
     const handleInputChange = (e, setter) => {
         setter(e.target.value)
     }
-    
+
     const submitForm = () => sendUserInput(
         ...[username, password, token].filter((v) => v !== null),
         [setUsername, setPassword]
     )
 
     return (
-        <div className="big-container">
+        <>
+        <button className="absolute top-1 right-2"
+        onClick={() => {setUserForm(form)}}>
+            {navigation}
+        </button>
+        <div className="flex justify-center items-center h-screen v-screen">
             <div>
-                <input
-                onChange={(e) => handleInputChange(e, setUsername)} value={username}
+                <UsernamePasswordInput
+                onChange={(e) => handleInputChange(e, setUsername)}
+                value={username}
                 type="text"
-                placeholder="username">
-                </input><br/>
+                placeholder="username"
+                /><br/>
                 <EnterKeyInput
+                InputComponent={UsernamePasswordInput}
                 onChange={(e) => handleInputChange(e, setPassword)}
-                value={password} type="password"
+                value={password}
+                type="password"
                 placeholder="password"
                 onKeyPress={submitForm}
                 /><br/>
@@ -36,17 +58,13 @@ const UserAction = ({sendUserInput, action, navigation, form}) => {
                 sitekey="a6f9202c-4170-4f0f-b3cd-de589d54f1d0"
                 onVerify={token => setToken(token)}/>
                 }
-                <div className="form-buttons-container">
-                    <button onClick={submitForm}>
-                        {action}
-                    </button>
-                    <button className="linkalike"
-                    onClick={() => {setUserForm(form)}}>
-                        {navigation}
-                    </button>
-                </div>
+                <Button
+                onClick={submitForm}
+                text={action}
+                />
             </div>
         </div>
+        </>
     )
 }
 
