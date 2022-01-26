@@ -5,7 +5,7 @@ import {TextInput, EnterKeyInput, Button} from './General'
 
 export const DeleteVideoContext = createContext()
 
-const VideoGallery = ({token}) => {
+const VideoGallery = ({token, logout}) => {
     const [videos, setVideos] = useState([])
     const [newVideo, setNewVideo] = useState('')
     const handleNewVideoChange = (e) => setNewVideo(e.target.value)

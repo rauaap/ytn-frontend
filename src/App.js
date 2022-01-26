@@ -28,7 +28,7 @@ const App = () => {
             onClick={logout}
             className="absolute top-1 right-2"
             >logout</button>
-            <VideoGallery token={token}/>
+            <VideoGallery token={token} logout={logout}/>
         </>
     )
 }
