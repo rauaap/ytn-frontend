@@ -17,6 +17,7 @@ const VideoGallery = ({token}) => {
         }
         videoService.getVideos()
             .then((videoList) => setVideos([...videoList]))
+            .catch(error => {alert('login expired'); logout()}
     }, [token])
 
     const addNewVideo = () => {
