@@ -1,10 +1,9 @@
-import {useState, useEffect, createContext} from 'react'
+import {useState, useEffect} from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import './App.css'
 import Login from './components/Login'
 import Register from './components/Register'
 import VideoGallery from './components/VideoGallery'
-
-export const SetUserFormContext = createContext()
 
 const App = () => {
     const [token, setToken] = useState(window.localStorage.token)
@@ -16,20 +15,13 @@ const App = () => {
     }
 
     return (
-        token === undefined ?
-        <SetUserFormContext.Provider value={setUserForm}>
-            {userForm ?
-            <Register setUserForm={setUserForm}/> :
-            <Login setToken={setToken}/>}
-        </SetUserFormContext.Provider>
-        :
-        <>
-            <button
-            onClick={logout}
-            className="absolute top-1 right-2"
-            >logout</button>
-            <VideoGallery token={token} logout={logout}/>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<VideoGallery token={token} logout={logout}/>} />
+                <Route path="login" element={<Login setToken={setToken}/>} />
+                <Route path="register" element={<Register />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 export default App;
