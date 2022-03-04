@@ -1,8 +1,11 @@
+import {useNavigate} from 'react-router-dom'
 import UserAction from './UserAction'
 import userServices from '../services/user'
 import {clearInputs} from '../helpers/helpers'
 
-const Register = ({setUserForm}) => {
+const Register = () => {
+    const navigate = useNavigate()
+
     const register = (username, password, token, setters) => {
         if (!token) {
             alert('please fill out captcha')
@@ -15,7 +18,7 @@ const Register = ({setUserForm}) => {
         })
         .then(() => clearInputs(setters))
         .then(() => alert(`Registered with username ${username}`))
-        .then(() => setUserForm(0))
+        .then(() => navigate('/login'))
         .catch(({response}) => {
             alert(response.data.error)
         })
@@ -25,7 +28,8 @@ const Register = ({setUserForm}) => {
         <UserAction
         sendUserInput={register}
         form={0}
-        navigation="login"
+        navigation="/login"
+        navigationLabel="Login"
         action="register"/>
     )
 }

@@ -1,4 +1,5 @@
 import {useState, useEffect, createContext} from 'react'
+import {useNavigate} from 'react-router-dom'
 import videoService from '../services/video'
 import Youtube from './Youtube'
 import {TextInput, EnterKeyInput, Button} from './General'
@@ -6,6 +7,9 @@ import {TextInput, EnterKeyInput, Button} from './General'
 export const DeleteVideoContext = createContext()
 
 const VideoGallery = ({token, logout}) => {
+    const navigate = useNavigate()
+    useEffect(() => token ? null : navigate('/login'), [token])
+
     const [videos, setVideos] = useState([])
     const [newVideo, setNewVideo] = useState('')
     const handleNewVideoChange = (e) => setNewVideo(e.target.value)
@@ -43,15 +47,20 @@ const VideoGallery = ({token, logout}) => {
 
     return (
         <div className="m-2">
-            <EnterKeyInput
-            InputComponent={TextInput}
-            value={newVideo}
-            placeholder="youtube link"
-            onChange={handleNewVideoChange}/>
+            <button
+            onClick={logout}
+            className="absolute top-1 right-2"
+            >logout</button>
+            <EnterKeyInput onKeyPress={addNewVideo}>
+                <TextInput
+                value={newVideo}
+                placeholder="youtube link"
+                onChange={handleNewVideoChange}/>
+            </EnterKeyInput>
             <span className="m-1">
-            <Button
-            text="add"
-            onClick={addNewVideo}/>
+                <Button
+                text="add"
+                onClick={addNewVideo}/>
             </span>
             <DeleteVideoContext.Provider value={deleteVideo}>
             {videos.length ?

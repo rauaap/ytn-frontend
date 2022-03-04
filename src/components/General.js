@@ -1,4 +1,6 @@
-const EnterKeyInput = ({InputComponent, type, onChange, value, placeholder, onKeyPress}) => {
+import React from 'react'
+
+const EnterKeyInput = ({children, onKeyPress}) => {
     const checkKeyPressed = (e) => {
         if (e.which === 13) {
             onKeyPress()
@@ -6,20 +8,20 @@ const EnterKeyInput = ({InputComponent, type, onChange, value, placeholder, onKe
     }
 
     return (
-        <InputComponent
-        type={type}
-        onChange={onChange}
-        value={value}
-        placeholder={placeholder}
-        onKeyPress={checkKeyPressed}
-        />
+        <>
+            {React.cloneElement(
+                React.Children.only(children),
+                {onKeyPress: checkKeyPressed}
+            )}
+        </>
     )
 }
 
-const TextInput = ({value, onChange, placeholder}) => {
+const TextInput = ({value, onChange, placeholder, type, onKeyPress}) => {
     return (
         <input
-        type="text"
+        onKeyPress={onKeyPress}
+        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
@@ -39,8 +41,13 @@ const Button = ({onClick, text}) => {
     )
 }
 
+const BottomMargin = ({children}) => {
+    return <div className="mb-1">{children}</div>
+}
+
 export {
     EnterKeyInput,
     Button,
-    TextInput
+    TextInput,
+    BottomMargin
 }
